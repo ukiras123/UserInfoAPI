@@ -1,6 +1,6 @@
 package com.kiran.model.response;
 
-import com.kiran.model.entity.UserInfo;
+import com.kiran.controller.dto.UserInfoDTO;
 
 import java.util.List;
 
@@ -11,22 +11,22 @@ import java.util.List;
 public class ReadAllResponse{
 
     private Integer totalCount;
-    private List<UserInfo> results;
+    private List<UserInfoDTO> results;
 
-    public ReadAllResponse(Integer totalCount, List<UserInfo> results) {
+    public ReadAllResponse(Integer totalCount, List<UserInfoDTO> results) {
         this.totalCount = totalCount;
         this.results = results;
     }
 
-    public List<UserInfo> getResults() {
+    public List<UserInfoDTO> getResults() {
         return this.results;
     }
 
-    public void setResults(List<UserInfo> results) {
+    public void setResults(List<UserInfoDTO> results) {
         this.results = results;
     }
 
-    public void add(UserInfo dto) {
+    public void add(UserInfoDTO dto) {
         if(this.results != null) {
             this.results.add(dto);
         }

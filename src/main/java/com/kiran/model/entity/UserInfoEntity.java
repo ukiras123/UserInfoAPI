@@ -7,13 +7,13 @@ import javax.persistence.*;
  * @since 8/24/17
  */
 @Entity
-@Table(name="users")
-public class UserInfo {
+@Table(name="user_detail")
+public class UserInfoEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue()
     @Column(name="id")
-    private long id;
+    private Long id;
 
     @Column(name="first_name")
     private String firstName;
@@ -27,14 +27,14 @@ public class UserInfo {
     @Column(name="phone_no", unique = true)
     private String phoneNo;
 
-    @Column(name="other_info")
+    @Column(name="other_info", nullable = true)
     private String otherInfo;
 
-    public UserInfo() {
+    public UserInfoEntity() {
 
     }
 
-    public UserInfo(String firstName, String lastName, String position, String phoneNo) {
+    public UserInfoEntity(String firstName, String lastName, String position, String phoneNo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.position = position;
@@ -87,18 +87,19 @@ public class UserInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserInfo userInfo = (UserInfo) o;
+        UserInfoEntity that = (UserInfoEntity) o;
 
-        if (!firstName.equals(userInfo.firstName)) return false;
-        if (!lastName.equals(userInfo.lastName)) return false;
-        if (!position.equals(userInfo.position)) return false;
-        if (!phoneNo.equals(userInfo.phoneNo)) return false;
-        return otherInfo != null ? otherInfo.equals(userInfo.otherInfo) : userInfo.otherInfo == null;
+        if (!firstName.equals(that.firstName)) return false;
+        if (!lastName.equals(that.lastName)) return false;
+        if (!position.equals(that.position)) return false;
+        if (!phoneNo.equals(that.phoneNo)) return false;
+        return otherInfo != null ? otherInfo.equals(that.otherInfo) : that.otherInfo == null;
     }
 
     @Override
     public int hashCode() {
-        int result = lastName.hashCode();
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
         result = 31 * result + position.hashCode();
         result = 31 * result + phoneNo.hashCode();
         result = 31 * result + (otherInfo != null ? otherInfo.hashCode() : 0);

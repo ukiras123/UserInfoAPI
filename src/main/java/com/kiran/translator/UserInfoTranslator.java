@@ -2,50 +2,69 @@ package com.kiran.translator;
 
 import com.kiran.controller.dto.UserInfoDTO;
 import com.kiran.controller.dto.UserInfoDTO.UserInfoAttribute;
-import com.kiran.model.entity.UserInfo;
+import com.kiran.model.entity.UserInfoEntity;
+import org.springframework.stereotype.Component;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Kiran
  * @since 8/24/17
  */
+
+
+@Component
 public class UserInfoTranslator {
 
-    public UserInfo dtoToEntity (final UserInfo original, final UserInfoDTO userInfoDTO)
+    public UserInfoEntity dtoToEntity (final UserInfoDTO userInfoDTO)
     {
-        UserInfo userInfo = (original == null) ? new UserInfo() : original;
+        UserInfoEntity UserInfoEntity = new UserInfoEntity();
 
         for (UserInfoAttribute attribute : userInfoDTO.getAssignedAttributes()) {
             switch(attribute) {
                 case FirstName:
-                    if(userInfo.getFirstName() == null)
-                        userInfo.setFirstName(userInfoDTO.getFirstName());
+                    if(UserInfoEntity.getFirstName() == null)
+                        UserInfoEntity.setFirstName(userInfoDTO.getFirstName());
                     break;
                 case LastName:
-                    userInfo.setLastName(userInfoDTO.getLastName());
+                    UserInfoEntity.setLastName(userInfoDTO.getLastName());
                     break;
                 case Position:
-                    userInfo.setPosition(userInfoDTO.getPosition());
+                    UserInfoEntity.setPosition(userInfoDTO.getPosition());
                     break;
                 case PhoneNo:
-                    userInfo.setPhoneNo(userInfoDTO.getPhoneNo());
+                    UserInfoEntity.setPhoneNo(userInfoDTO.getPhoneNo());
                     break;
                 case OtherInfo:
-                    userInfo.setOtherInfo(userInfoDTO.getOtherInfo());
+                    UserInfoEntity.setOtherInfo(userInfoDTO.getOtherInfo());
                     break;
                 default:
                     break;
             }
         }
 
-        return userInfo;
+        return UserInfoEntity;
     }
 
-    public UserInfoDTO entityToDTO(UserInfo userInfo) {
+    public UserInfoDTO entityToDTO(UserInfoEntity UserInfoEntity) {
         UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setFirstName(userInfo.getFirstName());
-        userInfoDTO.setLastName(userInfo.getLastName());
-        userInfoDTO.setPosition(userInfo.getPosition());
-        userInfoDTO.setPhoneNo(userInfo.getPhoneNo());
-        userInfoDTO.setOtherInfo(userInfo.getOtherInfo());
+        userInfoDTO.setFirstName(UserInfoEntity.getFirstName());
+        userInfoDTO.setLastName(UserInfoEntity.getLastName());
+        userInfoDTO.setPosition(UserInfoEntity.getPosition());
+        userInfoDTO.setPhoneNo(UserInfoEntity.getPhoneNo());
+        userInfoDTO.setOtherInfo(UserInfoEntity.getOtherInfo());
         return userInfoDTO;
+    }
+
+    public List<UserInfoDTO> entityListToDTOList(Iterable<UserInfoEntity> iterable) {
+        LinkedList list = new LinkedList();
+        Iterator iter = iterable.iterator();
+        while(iter.hasNext()) {
+            list.add(this.entityToDTO((UserInfoEntity) iter.next()));
+        }
+
+        return list;
     }
 }

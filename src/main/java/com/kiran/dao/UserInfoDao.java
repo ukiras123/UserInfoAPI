@@ -1,15 +1,15 @@
 package com.kiran.dao;
 
-import com.kiran.model.entity.UserInfo;
+import com.kiran.model.entity.UserInfoEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author Kiran
  * @since 8/24/17
  */
-public interface UserInfoDao extends CrudRepository<UserInfoDao, Long> {
+public interface UserInfoDao extends CrudRepository<UserInfoEntity, Long> {
 
-    UserInfo findByFirstName(String firstName);
-    UserInfo findByPhoneNo(String phoneNo);
+    Iterable<UserInfoEntity> findByFirstName(String firstName);
+    UserInfoEntity findByPhoneNo(String phoneNo);
 
 }
