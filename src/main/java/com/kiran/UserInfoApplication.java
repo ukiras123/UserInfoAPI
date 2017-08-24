@@ -1,4 +1,4 @@
-package com.kiran.user_info;
+package com.kiran;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

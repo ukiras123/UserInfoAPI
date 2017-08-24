@@ -1,10 +1,10 @@
-DROP DATABASE IF EXISTS ocxuser;
-CREATE DATABASE slate DEFAULT CHARACTER SET utf8;
+DROP DATABASE IF EXISTS users;
+CREATE DATABASE users DEFAULT CHARACTER SET utf8;
 
-USE ocxuser;
+USE users;
 
-CREATE TABLE tenant (
-  user_id bigint NOT NULL PRIMARY KEY,
+CREATE TABLE user_detail (
+  id bigint NOT NULL PRIMARY KEY,
   first_name varchar(100) NOT NULL,
   last_name varchar(100) NOT NULL,
   position varchar(100) NOT NULL,
