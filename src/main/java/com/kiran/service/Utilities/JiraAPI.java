@@ -23,7 +23,7 @@ public class JiraAPI {
         try {
             RestTemplate restTemplate = new RestTemplate();
 
-            String plainCreds = "kgautam:Nepal123";
+            String plainCreds = "user:pass"; 
             byte[] plainCredsBytes = plainCreds.getBytes();
             byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
             String base64Creds = new String(base64CredsBytes);
