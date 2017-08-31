@@ -17,8 +17,6 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class JiraAPI {
 
-
-
     public JSONObject getAPIResponse(String jiraTicket) throws InterruptedException {
         String URL = "https://jira.oceanx.com/rest/api/latest/issue/"+jiraTicket+".json";
 
@@ -37,13 +35,6 @@ public class JiraAPI {
             ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.GET, request, String.class);
 
             JSONObject jObject  = new JSONObject(response);
-//            String status = jObject.getString("statusCode");
-//            if (!status.equals("200")) {
-//                Set<BusinessRuleViolation> violations = new HashSet<>();
-//                violations.add(new BusinessRuleViolation("Invalid Jira Ticket/Server Error. Please try again."));
-//                throw new BusinessRulesViolationException(violations);
-//            }
-
             String strBody =   jObject.getString("body");
             JSONObject jBody  = new JSONObject(strBody);
             return jBody;
