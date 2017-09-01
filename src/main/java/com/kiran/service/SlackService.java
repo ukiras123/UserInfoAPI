@@ -30,9 +30,12 @@ public class SlackService {
     {
         HashMap<String, String> hmap = new HashMap<String, String>();
         try {
-            JSONObject k = jiraAPI.getAPIResponse(jiraTicket);
+            JSONObject k = jiraAPI.getTicketDetail(jiraTicket);
             String summary = k.getJSONObject("fields").getString("summary");
-            String asignee = k.getJSONObject("fields").getJSONObject("assignee").getString("name");
+            String asignee = "N/A";
+            if (!k.getJSONObject("fields").get("assignee").toString().equals("null")) {
+                asignee  = k.getJSONObject("fields").getJSONObject("assignee").getString("name");
+            }
             String status = k.getJSONObject("fields").getJSONObject("status").getString("name");
             hmap.put("summary", summary);
             hmap.put("assignee", asignee);
@@ -72,5 +75,24 @@ public class SlackService {
             }
         }
         return jiraTicket;
+    }
+
+    public String getAssigneeName(String str) {
+        String part[] = str.split(" ");
+        String mayBeUser = null;
+        String asignee = null;
+        for (String st : part) {
+            if (st.contains("user"))
+            {
+                mayBeUser = st;
+                break;
+            }
+        }
+        if (mayBeUser != null) {
+            if (mayBeUser.contains(":")) {
+                asignee = mayBeUser.substring(mayBeUser.indexOf(":") + 1);
+            }
+        }
+        return asignee;
     }
 }

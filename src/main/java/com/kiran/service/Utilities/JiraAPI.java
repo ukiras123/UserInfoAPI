@@ -2,10 +2,8 @@ package com.kiran.service.Utilities;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,13 +15,12 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class JiraAPI {
 
-    public JSONObject getAPIResponse(String jiraTicket) throws InterruptedException {
+    public JSONObject getTicketDetail(String jiraTicket) throws InterruptedException {
         String URL = "https://jira.oceanx.com/rest/api/latest/issue/"+jiraTicket+".json";
 
         try {
             RestTemplate restTemplate = new RestTemplate();
-
-            String plainCreds = "user:pass"; 
+            String plainCreds = "kgautam:Nepal123";
             byte[] plainCredsBytes = plainCreds.getBytes();
             byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
             String base64Creds = new String(base64CredsBytes);
@@ -42,6 +39,39 @@ public class JiraAPI {
             System.out.println("** Exception: " + ex.getMessage());
         }
         return null;
+    }
+
+
+    public String assignATicket(String jiraTicket, String asignee) throws InterruptedException {
+        String URL = "https://jira.oceanx.com/rest/api/latest/issue/"+jiraTicket+"/assignee";
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            String plainCreds = "kgautam:Nepal123";
+            byte[] plainCredsBytes = plainCreds.getBytes();
+            byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
+            String base64Creds = new String(base64CredsBytes);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization", "Basic " + base64Creds);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            String input = "{\"name\":\""+asignee+"\"}";
+            HttpEntity<String> entity = new HttpEntity<String>(input, headers);
+            ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.PUT, entity, String.class);
+            HttpStatus statusCode = response.getStatusCode();
+            int code = statusCode.value();
+            if (code == 204) {
+                return "passed";
+            } else if (code == 400) {
+                return "userIssue";
+            } else {
+                return "failed";
+            }
+
+        } catch (Exception ex) {
+            System.out.println("** Exception: " + ex.getMessage());
+            return "failed";
+        }
     }
 
 
