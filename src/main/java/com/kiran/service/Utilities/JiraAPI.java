@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -55,22 +56,28 @@ public class JiraAPI {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization", "Basic " + base64Creds);
             headers.setContentType(MediaType.APPLICATION_JSON);
-            String input = "{\"name\":\""+asignee+"\"}";
+            String input = "{\"name\":\"" + asignee + "\"}";
             HttpEntity<String> entity = new HttpEntity<String>(input, headers);
             ResponseEntity<String> response = restTemplate.exchange(URL, HttpMethod.PUT, entity, String.class);
             HttpStatus statusCode = response.getStatusCode();
             int code = statusCode.value();
             if (code == 204) {
                 return "passed";
-            } else if (code == 400) {
-                return "userIssue";
             } else {
                 return "failed";
             }
-
-        } catch (Exception ex) {
+        }catch(HttpClientErrorException ex)
+        {
             System.out.println("** Exception: " + ex.getMessage());
-            return "failed";
+            if (ex.getStatusCode().value() == 400) {
+                return "userIssue";
+            } else if (ex.getStatusCode().value() == 404) {
+            return "jiraTicket";
+            } else {
+                return "failed";
+            }
+        } catch (Exception ex) {
+                return "failed";
         }
     }
 

@@ -81,18 +81,29 @@ public class SlackController {
             if (!text.isEmpty()) {
                 String jiraTicket = slackService.getJiraCode(text);
                 String assigneeName = slackService.getAssigneeName(text);
+                if (jiraTicket == null) {
+                    SlackResponse response = new SlackResponse("Please input a valid Jira Ticket");
+                    return new ResponseEntity<>(response, null, HttpStatus.OK);
+                }
                 if (assigneeName == null) {
                     SlackResponse response = new SlackResponse("Format not correct.\nUser \"XXXX-3333 to user:JiraUserName\"");
                     return new ResponseEntity<>(response, null, HttpStatus.OK);
                 }
                 String passed = jiraAPI.assignATicket(jiraTicket, assigneeName);
-                if (passed.equals("userIssue")) {
+                if (passed.equals("passed")) {
+                    SlackResponse response = new SlackResponse("Ticket: *" + jiraTicket + "* is assigned to *"+assigneeName+"*");
+                    return new ResponseEntity<>(response, null, HttpStatus.OK);
+                } else if (passed.equals("userIssue")) {
                     SlackResponse response = new SlackResponse("User: *" + assigneeName + "* does not exist.");
                     return new ResponseEntity<>(response, null, HttpStatus.OK);
-                } else if (passed.equals("failed")) {
+                } else if (passed.equals("jiraTicket")) {
+                    SlackResponse response = new SlackResponse("Jira Ticket is invalid");
+                    return new ResponseEntity<>(response, null, HttpStatus.OK);
+                }else {
                     SlackResponse response = new SlackResponse("Something went wrong. Please try again.");
                     return new ResponseEntity<>(response, null, HttpStatus.OK);
                 }
+
             } else {
                 SlackResponse response = new SlackResponse("Welcome, " + user_name.substring(0, 1).toUpperCase() + user_name.substring(1) + ". You can now Assign a Jira Ticket");
                 return new ResponseEntity<>(response, null, HttpStatus.OK);
