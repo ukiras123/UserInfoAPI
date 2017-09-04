@@ -1,10 +1,10 @@
 package com.kiran.controller;
 
 import com.kiran.model.response.SlackResponse;
-import com.kiran.service.Exception.BusinessRulesViolationException;
+import com.kiran.service.exception.BusinessRulesViolationException;
 import com.kiran.service.SlackService;
-import com.kiran.service.Utilities.JiraAPI;
-import com.kiran.service.Utilities.Utilities;
+import com.kiran.service.integration.JiraAPI;
+import com.kiran.service.utilities.Utilities;
 import com.kiran.translator.UserInfoTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;

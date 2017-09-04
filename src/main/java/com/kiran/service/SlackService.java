@@ -1,7 +1,7 @@
 package com.kiran.service;
 
-import com.kiran.service.Exception.BusinessRulesViolationException;
-import com.kiran.service.Utilities.JiraAPI;
+import com.kiran.service.exception.BusinessRulesViolationException;
+import com.kiran.service.integration.JiraAPI;
 import com.kiran.service.validator.BusinessRuleViolation;
 import com.kiran.service.validator.UserInfoInputDataValidator;
 import org.json.JSONObject;

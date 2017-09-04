@@ -1,4 +1,4 @@
-package com.kiran.service.Utilities;
+package com.kiran.service.integration;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONObject;
@@ -37,7 +37,7 @@ public class JiraAPI {
             JSONObject jBody  = new JSONObject(strBody);
             return jBody;
         } catch (Exception ex) {
-            System.out.println("** Exception: " + ex.getMessage());
+            System.out.println("** exception: " + ex.getMessage());
         }
         return null;
     }
@@ -68,7 +68,7 @@ public class JiraAPI {
             }
         }catch(HttpClientErrorException ex)
         {
-            System.out.println("** Exception: " + ex.getMessage());
+            System.out.println("** exception: " + ex.getMessage());
             if (ex.getStatusCode().value() == 400) {
                 return "userIssue";
             } else if (ex.getStatusCode().value() == 404) {

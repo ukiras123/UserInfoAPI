@@ -1,4 +1,4 @@
-package com.kiran.service.Exception;
+package com.kiran.service.exception;
 
 /**
  * @author Kiran

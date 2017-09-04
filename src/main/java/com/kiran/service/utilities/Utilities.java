@@ -1,4 +1,4 @@
-package com.kiran.service.Utilities;
+package com.kiran.service.utilities;
 
 import org.springframework.stereotype.Component;
 
